@@ -1,5 +1,6 @@
 name: SpotBugs Scan
 
+  
 on:
   push:
     branches: [ main ]
@@ -9,6 +10,7 @@ on:
 permissions:
   contents: read
   security-events: write
+  actions: read
 
 jobs:
   spotbugs:
