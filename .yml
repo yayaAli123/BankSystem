@@ -1,2 +1,33 @@
-- name: SpotBugs with FindSecBugs
-  uses: advanced-security/spotbugs-findsecbugs-action@v1.0.7
+name: SpotBugs Scan
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  spotbugs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: microsoft
+          java-version: '11'
+
+      - name: Build project
+        run: mvn compile
+
+      - name: SpotBugs with FindSecBugs
+        uses: advanced-security/spotbugs-findsecbugs-action@v1.0.7
+        with:
+          spotbugs_target: target/classes/
+          spotbugs_filename_glob: "*.class"
